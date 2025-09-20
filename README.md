@@ -7,6 +7,7 @@
    dad
    
 2. **Start the project**
+   - run chmod +x start.sh
    ```bash
    ./start.sh
   - Run using docker
@@ -17,6 +18,7 @@
     docker exec -i postgres_db psql -U ejuser -d nestdb < backup.sql
 
 3. **Stop the project**
+   - run chmod +x stop.sh
     ```bash
     ./stop.sh
   - Stop using docker
