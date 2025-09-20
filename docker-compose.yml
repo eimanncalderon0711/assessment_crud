@@ -1,0 +1,80 @@
+services:
+  # -------------------------
+  # Frontend - Next.js
+  # -------------------------
+  nextjs-dev:
+    build:
+      context: ./frontend_next
+      target: dev
+    container_name: nextjs_dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend_next:/app
+    env_file:
+      - ./frontend_next/.env.local
+    depends_on:
+      - nest-app
+    command: npm run dev
+
+  # nextjs-prod:
+  #   build:
+  #     context: ./frontend_next
+  #     target: prod
+  #   container_name: nextjs_prod
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NODE_ENV: production
+  #     NEXT_PUBLIC_API_URL: http://nest-app:3000
+  #   depends_on:
+  #     - nest-app
+  #   command: npm start
+
+  # -------------------------
+  # Backend - NestJS
+  # -------------------------
+  nest-app:
+    build: ./backend_nest
+    container_name: nest-app
+    command: npm run start:dev
+    volumes:
+      - ./backend_nest:/app
+    ports:
+      - "3001:3001" # outside:inside (so host sees 3001, container listens on 3000)
+    depends_on:
+      - postgres
+    env_file:
+      - ./backend_nest/.env.dev
+
+  # -------------------------
+  # Database - Postgres
+  # -------------------------
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    env_file:
+      - ./backend_nest/.env.dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # -------------------------
+  # Database GUI - Adminer
+  # -------------------------
+  adminer:
+    image: adminer
+    container_name: admin_db
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+# -------------------------
+# Volumes
+# -------------------------
+volumes:
+  pgdata:

@@ -1,0 +1,24 @@
+services:
+  nextjs-dev:
+    build:
+      context: .
+      target: dev
+    container_name: nextjs_dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      NODE_ENV: development
+    command: npm run dev
+
+  nextjs-prod:
+    build:
+      context: .
+      target: prod
+    container_name: nextjs_prod
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    command: npm start
