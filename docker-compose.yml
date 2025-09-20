@@ -11,6 +11,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend_next:/app
+      - /app/node_modules 
     env_file:
       - ./frontend_next/.env.local
     depends_on:
@@ -40,6 +41,7 @@ services:
     command: npm run start:dev
     volumes:
       - ./backend_nest:/app
+      - /app/node_modules 
     ports:
       - "3001:3001" # outside:inside (so host sees 3001, container listens on 3000)
     depends_on:
