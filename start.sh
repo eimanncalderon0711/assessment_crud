@@ -18,3 +18,5 @@ echo "📂 Importing SQL data..."
 docker exec -i postgres_db psql -U ejuser -d nestdb < backup.sql
 
 echo "🎉 Done! Database has been initialized with backup.sql"
+echo 
+echo -e "browse http://localhost:3000/\nthen open http://localhost:8080/"
